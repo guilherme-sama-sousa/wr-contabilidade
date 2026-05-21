@@ -824,6 +824,72 @@
 
     .privacy-note svg { flex-shrink: 0; margin-top: 1px; color: var(--gold-dk); }
 
+    /* ─── TRUST SECTION ─── */
+    .trust-section {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px 24px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trust-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-dk), var(--gold-lt), var(--gold-dk));
+    }
+
+    .trust-section-header { margin-bottom: 16px; }
+
+    .trust-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .trust-sub {
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--cream-2);
+    }
+
+    .trust-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .trust-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .trust-num {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-lt);
+      white-space: nowrap;
+      min-width: 72px;
+    }
+
+    .trust-txt {
+      font-size: .82rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
     /* ─── VALIDATION ─── */
     .field-error {
       font-size: .72rem;
@@ -1030,22 +1096,23 @@
       <span class="eyebrow">Contabilidade Estratégica</span>
 
       <h1>
-        A solução definitiva para a gestão fiscal
+        A solução definitiva para a gestão contábil
         <em>do seu negócio.</em>
       </h1>
 
       <p class="hero-sub">
-        Deixe de se preocupar com burocracia e foque no crescimento. Nossa contabilidade estratégica transforma desafios tributários em oportunidades reais para a sua empresa.
+        Deixe de se preocupar com burocracia e foque no crescimento. Nossa contabilidade estratégica e consultiva transforma desafios contábeis, tributários e patrimoniais em oportunidades reais para a sua empresa.
       </p>
 
       <div class="pain-box">
+        <p class="pain-title">Aqui você não fala com um robô.</p>
         <p>
-          Cansado de pagar impostos a mais? Sua contabilidade atual não te oferece o suporte necessário para crescer com segurança? Você merece muito mais do que simples obrigações acessórias.
+          Atendimento personalizado para entregar a você um diagnóstico preciso da sua empresa, trazendo possibilidades reais de crescimento sustentável.
         </p>
       </div>
 
       <a href="#form-card" class="btn-primary">
-        Receber análise gratuita
+        RECEBER ANÁLISE GRATUITA
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
@@ -1166,41 +1233,47 @@
     <div class="form-left">
       <span class="eyebrow">Aplicação Gratuita</span>
 
-      <h2>Preencha e dê o primeiro passo para uma contabilidade <em>de excelência.</em></h2>
+      <h2>Preencha o formulário e dê o primeiro passo para uma contabilidade <em>de excelência.</em></h2>
 
       <p class="form-intro">
-        Para entendermos melhor o seu negócio e direcionarmos o atendimento ideal, preencha os campos ao lado. Seus dados serão analisados pela nossa equipe de forma rápida e personalizada.
+        Para entendermos melhor o seu negócio e direcionarmos o atendimento e a solução ideal, preencha os campos a seguir. Seus dados serão analisados pela nossa equipe de forma rápida, personalizada e segura.
       </p>
+
+      <!-- SEÇÃO: Por que confiar na WR -->
+      <div class="trust-section">
+        <div class="trust-section-header">
+          <span class="trust-label">POR QUE CONFIAR NA WR CONTABILIDADE?</span>
+          <p class="trust-sub">Nossos resultados falam por nós</p>
+        </div>
+        <ul class="trust-list">
+          <li><span class="trust-num">+18</span><span class="trust-txt">anos de experiência em Contabilidade Consultiva</span></li>
+          <li><span class="trust-num">+1.300</span><span class="trust-txt">empresas atendidas em todo o Brasil</span></li>
+          <li><span class="trust-num">+140</span><span class="trust-txt">colaboradores especialistas</span></li>
+          <li><span class="trust-num">+R$100M</span><span class="trust-txt">economizados anualmente por meio do Planejamento Tributário</span></li>
+          <li><span class="trust-num">+R$12Bi</span><span class="trust-txt">estruturados em ativos de clientes</span></li>
+          <li><span class="trust-num">Até 40%</span><span class="trust-txt">de redução da carga tributária de forma 100% legal</span></li>
+        </ul>
+      </div>
 
       <ul class="benefit-list">
         <li>
-          <span class="check">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-          Diagnóstico tributário sem custo ou compromisso
+          <span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Diagnóstico tributário sem custo
         </li>
         <li>
-          <span class="check">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-          Identificação de possibilidades de economia fiscal lícita
+          <span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Identificação de possibilidades de economia de impostos de forma 100% legal
         </li>
         <li>
-          <span class="check">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
+          <span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
           Atendimento por especialistas em sua área de atuação
         </li>
         <li>
-          <span class="check">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-          Retorno em até 24 horas úteis pelo WhatsApp
+          <span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Retorno em até 06 horas úteis pelo WhatsApp
         </li>
         <li>
-          <span class="check">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
+          <span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
           Sigilo absoluto de todas as informações fornecidas
         </li>
       </ul>
@@ -1217,28 +1290,52 @@
 
         <!-- 1. Nome -->
         <div class="form-group" id="fg-Nome">
-          <label for="Nome">Como podemos te chamar? <span class="req">*</span></label>
+          <label for="Nome">COMO PODEMOS TE CHAMAR? <span class="req">*</span></label>
           <input type="text" id="Nome" name="Nome" placeholder="Seu nome ou apelido" autocomplete="given-name" />
           <span class="field-error">Por favor, informe seu nome.</span>
         </div>
 
         <!-- 2. WhatsApp -->
         <div class="form-group" id="fg-WhatsApp">
-          <label for="WhatsApp">Qual o seu WhatsApp? <span class="req">*</span></label>
+          <label for="WhatsApp">QUAL SEU WHATSAPP? <span class="req">*</span></label>
           <input type="tel" id="WhatsApp" name="WhatsApp" placeholder="(00) 00000-0000" autocomplete="tel" maxlength="15" />
           <span class="field-error">Informe um número válido: celular (11) 9XXXX-XXXX ou fixo (11) XXXX-XXXX com DDD real.</span>
         </div>
 
-        <!-- 3. Segmento -->
-        <div class="form-group" id="fg-Segmento">
-          <label for="Segmento">Segmento principal da empresa <span class="req">*</span></label>
-          <input type="text" id="Segmento" name="Segmento" placeholder="Ex: Comércio, Serviços, Indústria, Tecnologia…" />
-          <span class="field-error">Informe o segmento da sua empresa.</span>
+        <!-- 3. Cidade/Estado -->
+        <div class="form-group" id="fg-CidadeEstado">
+          <label for="CidadeEstado">CIDADE E ESTADO DA SUA EMPRESA? <span class="req">*</span></label>
+          <input type="text" id="CidadeEstado" name="CidadeEstado" placeholder="Ex: Belo Horizonte-MG" />
+          <span class="field-error">Informe a cidade e estado da sua empresa.</span>
         </div>
 
-        <!-- 4. Regime Tributário -->
+        <!-- 4. Setor -->
+        <div class="form-group" id="fg-Setor">
+          <label>QUAL É O SETOR PRINCIPAL DA SUA EMPRESA? <span class="req">*</span></label>
+          <div class="radio-grid">
+            <label class="radio-opt"><input type="radio" name="Setor" value="Comércio" /><span class="radio-label">Comércio</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Serviços" /><span class="radio-label">Serviços</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Indústria" /><span class="radio-label">Indústria</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Agronegócio" /><span class="radio-label">Agronegócio</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Tecnologia" /><span class="radio-label">Tecnologia</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Construção Civil" /><span class="radio-label">Construção Civil</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Transporte e Logística" /><span class="radio-label">Transporte e Logística</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Saúde" /><span class="radio-label">Saúde</span></label>
+            <label class="radio-opt"><input type="radio" name="Setor" value="Outro" /><span class="radio-label">Outro</span></label>
+          </div>
+          <span class="field-error">Selecione o setor da sua empresa.</span>
+        </div>
+
+        <!-- 5. Atividade -->
+        <div class="form-group" id="fg-Atividade">
+          <label for="Atividade">QUAL É A ATIVIDADE PRINCIPAL DA SUA EMPRESA? <span class="req">*</span></label>
+          <input type="text" id="Atividade" name="Atividade" placeholder="Ex: Supermercado, Posto de Combustíveis, Clínica Médica, Produtor Rural…" />
+          <span class="field-error">Informe a atividade principal da sua empresa.</span>
+        </div>
+
+        <!-- 6. Regime Tributário -->
         <div class="form-group" id="fg-RegimeTributario">
-          <label>Regime tributário atual <span class="req">*</span></label>
+          <label>REGIME TRIBUTÁRIO ATUAL <span class="req">*</span></label>
           <div class="radio-grid">
             <label class="radio-opt">
               <input type="radio" name="RegimeTributario" value="Simples Nacional" />
@@ -1260,9 +1357,9 @@
           <span class="field-error">Selecione o regime tributário.</span>
         </div>
 
-        <!-- 5. Colaboradores -->
+        <!-- 7. Colaboradores -->
         <div class="form-group" id="fg-Colaboradores">
-          <label>Quantos colaboradores sua empresa possui? <span class="req">*</span></label>
+          <label>QUANTOS COLABORADORES SUA EMPRESA POSSUI? <span class="req">*</span></label>
           <div class="radio-grid collab-grid">
             <label class="radio-opt">
               <input type="radio" name="Colaboradores" value="Apenas eu (sem funcionários)" />
@@ -1288,16 +1385,16 @@
           <span class="field-error">Selecione o número de colaboradores.</span>
         </div>
 
-        <!-- 6. Dor Principal -->
+        <!-- 8. Dor Principal -->
         <div class="form-group" id="fg-DorPrincipal">
-          <label for="DorPrincipal">Qual sua principal dor com a contabilidade? <span class="req">*</span></label>
+          <label for="DorPrincipal">QUAL SUA PRINCIPAL DOR ATUALMENTE QUANDO SE FALA EM CONTABILIDADE? <span class="req">*</span></label>
           <textarea id="DorPrincipal" name="DorPrincipal" placeholder="Ex: pago muitos impostos, não tenho suporte do contador, falta clareza nos relatórios…"></textarea>
           <span class="field-error">Compartilhe sua principal dificuldade.</span>
         </div>
 
         <button type="submit" class="btn-submit" id="btn-submit">
           <span class="btn-text">
-            Enviar aplicação e receber análise
+            RECEBER ANÁLISE GRATUITA
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </span>
           <span class="spinner"></span>
@@ -1306,8 +1403,8 @@
         <!-- Feedback messages -->
         <div class="msg-box success" id="msg-success">
           <div class="success-icon">✅</div>
-          <h4>Aplicação enviada com sucesso!</h4>
-          <p>Obrigado, <strong id="nome-confirmado"></strong>! Nossa equipe entrará em contato em breve pelo WhatsApp para dar início à análise do perfil tributário da sua empresa.</p>
+          <h4>Resposta enviada com sucesso!</h4>
+          <p>Obrigado, <strong id="nome-confirmado"></strong>! Nossa equipe entrará em contato em breve pelo WhatsApp para dar início à análise estratégica do perfil contábil da sua empresa.</p>
         </div>
 
         <div class="msg-box error" id="msg-error">
@@ -1331,8 +1428,9 @@
   <div class="footer-brand">WR Contabilidade & Consultoria</div>
 
   <div class="footer-links">
-    <a href="tel:+556499668944">📞 +55 64 9966-8944</a>
-    <a href="https://instagram.com/grupo_wr" target="_blank" rel="noopener">📸 @grupo_wr</a>
+    <a href="tel:+556434310510">☎️ (64) 3431-0510</a>
+    <a href="mailto:pedro.silva@grupowr.cnt.br">📩 pedro.silva@grupowr.cnt.br</a>
+    <a href="https://instagram.com/wrcontabilidade" target="_blank" rel="noopener">📸 @wrcontabilidade</a>
     <a href="#politica-privacidade">Política de Privacidade</a>
   </div>
 
@@ -1374,11 +1472,14 @@
 
   function validateForm(data) {
     let ok = true;
-    const fields = ['Nome','WhatsApp','Segmento'];
+    const fields = ['Nome','WhatsApp','CidadeEstado','Atividade'];
     fields.forEach(f => {
       if (!data[f] || data[f].trim() === '') { setInvalid(f); ok = false; }
       else setValid(f);
     });
+
+    if (!data['Setor']) { setInvalid('Setor'); ok = false; }
+    else setValid('Setor');
 
     // Validação telefone brasileiro — DDD + estrutura + anti-fake
     const rawTel = data['WhatsApp'].replace(/\D/g,'');
@@ -1422,7 +1523,8 @@
    *      var data  = JSON.parse(e.postData.contents);
    *      sheet.appendRow([
    *        new Date(),
-   *        data.Nome, data.WhatsApp, data.Segmento,
+   *        data.Nome, data.WhatsApp, data.CidadeEstado,
+   *        data.Setor, data.Atividade,
    *        data.RegimeTributario, data.Colaboradores, data.DorPrincipal
    *      ]);
    *      return ContentService
@@ -1445,8 +1547,10 @@
     // Captura radio buttons manualmente
     const regime = document.querySelector('input[name="RegimeTributario"]:checked');
     const collab = document.querySelector('input[name="Colaboradores"]:checked');
+    const setor  = document.querySelector('input[name="Setor"]:checked');
     data['RegimeTributario'] = regime ? regime.value : '';
     data['Colaboradores']    = collab  ? collab.value  : '';
+    data['Setor']            = setor   ? setor.value   : '';
 
     if (!validateForm(data)) {
       const firstInvalid = document.querySelector('.form-group.invalid');
