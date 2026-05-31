@@ -1590,11 +1590,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     data['RegimeTributario'] = regime ? regime.value : '';
     data['Colaboradores']    = collab  ? collab.value  : '';
     
+    let valorSetor = '';
     if (setor && setor.value === 'Outro') {
-      data['Setor'] = 'Outro: ' + (fd.get('SetorOutro') || '');
+      valorSetor = 'Outro: ' + (fd.get('SetorOutro') || '').trim();
     } else {
-      data['Setor'] = setor ? setor.value : '';
+      valorSetor = setor ? setor.value : '';
     }
+    
+    // Mapeia para ambos os nomes possíveis para garantir integração com a planilha
+    data['Setor'] = valorSetor;
+    data['Segmento'] = valorSetor;
 
     if (!validateForm(data)) {
       const firstInvalid = document.querySelector('.form-group.invalid');
