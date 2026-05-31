@@ -1517,8 +1517,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       else setValid(f);
     });
 
-    if (!data['Setor']) { setInvalid('Setor'); ok = false; }
-    else setValid('Setor');
+    if (!data['Setor']) { 
+      setInvalid('Setor'); 
+      ok = false; 
+    } else if (data['Setor'].includes('Outro: ') && data['Setor'].replace('Outro: ', '').trim() === '') {
+      // Se selecionou Outro mas não escreveu nada
+      setInvalid('Setor');
+      ok = false;
+    } else {
+      setValid('Setor');
+    }
 
     // Validação telefone brasileiro — DDD + estrutura + anti-fake
     const rawTel = data['WhatsApp'].replace(/\D/g,'');
@@ -1534,8 +1542,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const sequencias = ['12345678','23456789','34567890','98765432','87654321','12345679'];
     const ehSequencia = sequencias.some(s => numSemDDD.includes(s));
     const telValido  = dddValido && (isCelular || isFixo) && !todosIguais && !ehSequencia;
-    if (!telValido) { setInvalid('WhatsApp'); ok = false; }
-    else setValid('WhatsApp');
+    if (!telValido || rawTel.length < 10) { 
+      setInvalid('WhatsApp'); 
+      ok = false; 
+    } else {
+      setValid('WhatsApp');
+    }
 
     if (!data['RegimeTributario']) { setInvalid('RegimeTributario'); ok = false; }
     else setValid('RegimeTributario');
