@@ -1511,52 +1511,53 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function validateForm(data) {
     let ok = true;
-    const fields = ['Nome','WhatsApp','CidadeEstado','Atividade'];
-    fields.forEach(f => {
+    
+    // 1. Validação de campos de texto simples
+    const textFields = ['Nome','CidadeEstado','Atividade','DorPrincipal'];
+    textFields.forEach(f => {
       if (!data[f] || data[f].trim() === '') { setInvalid(f); ok = false; }
-      else setValid(f);
+      else { setValid(f); }
     });
 
-    if (!data['Setor']) { 
-      setInvalid('Setor'); 
-      ok = false; 
-    } else if (data['Setor'].includes('Outro: ') && data['Setor'].replace('Outro: ', '').trim() === '') {
-      // Se selecionou Outro mas não escreveu nada
-      setInvalid('Setor');
-      ok = false;
-    } else {
-      setValid('Setor');
-    }
-
-    // Validação telefone brasileiro — DDD + estrutura + anti-fake
-    const rawTel = data['WhatsApp'].replace(/\D/g,'');
+    // 2. Validação de Telefone (Rigorosa)
+    const rawTel = data['WhatsApp'] ? data['WhatsApp'].replace(/\D/g,'') : '';
     const ddd = parseInt(rawTel.slice(0,2), 10);
     const dddsValidos = [11,12,13,14,15,16,17,18,19,21,22,24,27,28,31,32,33,34,35,37,38,41,42,43,44,45,46,47,48,49,51,53,54,55,61,62,63,64,65,66,67,68,69,71,73,74,75,77,79,81,82,83,84,85,86,87,88,89,91,92,93,94,95,96,97,98,99];
     const dddValido  = dddsValidos.includes(ddd);
     const isCelular  = rawTel.length === 11 && rawTel[2] === '9';
     const isFixo     = rawTel.length === 10 && rawTel[2] !== '9';
-    // Bloqueia sequências de dígitos repetidos após o DDD (ex: 99999-9999, 00000-0000)
     const numSemDDD  = rawTel.slice(2);
     const todosIguais = /^(\d)\1+$/.test(numSemDDD);
-    // Bloqueia sequências óbvias (12345678, 87654321)
     const sequencias = ['12345678','23456789','34567890','98765432','87654321','12345679'];
     const ehSequencia = sequencias.some(s => numSemDDD.includes(s));
-    const telValido  = dddValido && (isCelular || isFixo) && !todosIguais && !ehSequencia;
-    if (!telValido || rawTel.length < 10) { 
-      setInvalid('WhatsApp'); 
-      ok = false; 
+    
+    const telValido = dddValido && (isCelular || isFixo) && !todosIguais && !ehSequencia && rawTel.length >= 10;
+    if (!telValido) { setInvalid('WhatsApp'); ok = false; }
+    else { setValid('WhatsApp'); }
+
+    // 3. Validação de Setor / Segmento
+    const radioSetor = document.querySelector('input[name="Setor"]:checked');
+    if (!radioSetor) {
+      setInvalid('Setor');
+      ok = false;
+    } else if (radioSetor.value === 'Outro') {
+      const manual = document.getElementById('SetorOutro').value.trim();
+      if (manual === '') {
+        setInvalid('Setor');
+        ok = false;
+      } else {
+        setValid('Setor');
+      }
     } else {
-      setValid('WhatsApp');
+      setValid('Setor');
     }
 
-    if (!data['RegimeTributario']) { setInvalid('RegimeTributario'); ok = false; }
-    else setValid('RegimeTributario');
+    // 4. Validação de Radio Buttons (Regime e Colaboradores)
+    if (!document.querySelector('input[name="RegimeTributario"]:checked')) { setInvalid('RegimeTributario'); ok = false; }
+    else { setValid('RegimeTributario'); }
 
-    if (!data['Colaboradores']) { setInvalid('Colaboradores'); ok = false; }
-    else setValid('Colaboradores');
-
-    if (!data['DorPrincipal'] || data['DorPrincipal'].trim() === '') { setInvalid('DorPrincipal'); ok = false; }
-    else setValid('DorPrincipal');
+    if (!document.querySelector('input[name="Colaboradores"]:checked')) { setInvalid('Colaboradores'); ok = false; }
+    else { setValid('Colaboradores'); }
 
     return ok;
   }
