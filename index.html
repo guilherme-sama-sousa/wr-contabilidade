@@ -1410,16 +1410,18 @@
         <div class="form-group" id="fg-Setor">
           <label>QUAL É O SETOR PRINCIPAL DA SUA EMPRESA? <span class="req">*</span></label>
           <div class="radio-grid">
-            <label class="radio-opt"><input type="radio" name="Setor" value="Comércio" /><span class="radio-label">Comércio</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Serviços" /><span class="radio-label">Serviços</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Indústria" /><span class="radio-label">Indústria</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Agronegócio" /><span class="radio-label">Agronegócio</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Tecnologia" /><span class="radio-label">Tecnologia</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Construção Civil" /><span class="radio-label">Construção Civil</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Transporte e Logística" /><span class="radio-label">Transporte e Logística</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Saúde" /><span class="radio-label">Saúde</span></label>
-            <label class="radio-opt"><input type="radio" name="Setor" value="Outro" /><span class="radio-label">Outro</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Comércio" /><span class="radio-label">Comércio</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Serviços" /><span class="radio-label">Serviços</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Indústria" /><span class="radio-label">Indústria</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Agronegócio" /><span class="radio-label">Agronegócio</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Tecnologia" /><span class="radio-label">Tecnologia</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Construção Civil" /><span class="radio-label">Construção Civil</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Transporte e Logística" /><span class="radio-label">Transporte e Logística</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Saúde" /><span class="radio-label">Saúde</span></label>
+            <label class="radio-opt"><input type="radio" name="SetorOpcao" value="Outro" /><span class="radio-label">Outro</span></label>
           </div>
+          <input type="hidden" id="Setor" name="Setor" value="" />
+          <input type="hidden" id="Segmento" name="Segmento" value="" />
           <div class="setor-outro" id="wrap-SetorOutro">
             <label for="SetorOutro">DIGITE O SETOR DA EMPRESA <span class="req">*</span></label>
             <input type="text" id="SetorOutro" name="SetorOutro" placeholder="Ex: Educação, Alimentação, Energia…" autocomplete="organization-title" />
@@ -1551,6 +1553,8 @@
   const telInput = document.getElementById('WhatsApp');
   const setorOutroWrap = document.getElementById('wrap-SetorOutro');
   const setorOutroInput = document.getElementById('SetorOutro');
+  const setorHiddenInput = document.getElementById('Setor');
+  const segmentoHiddenInput = document.getElementById('Segmento');
 
   const DDD_VALIDOS = [11,12,13,14,15,16,17,18,19,21,22,24,27,28,31,32,33,34,35,37,38,41,42,43,44,45,46,47,48,49,51,53,54,55,61,62,63,64,65,66,67,68,69,71,73,74,75,77,79,81,82,83,84,85,86,87,88,89,91,92,93,94,95,96,97,98,99];
 
@@ -1635,31 +1639,61 @@
       });
       this.closest('.radio-opt').classList.add('selected');
 
-      if (this.name === 'Setor') {
+      if (this.name === 'SetorOpcao') {
         updateSetorOutro();
+        setValid('Setor');
       } else {
         setValid(this.name);
       }
     });
   });
 
+  function getSetorOpcaoSelecionada() {
+    return document.querySelector('input[name="SetorOpcao"]:checked');
+  }
+
+  function limparEspacos(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function sincronizarSetor() {
+    const setorSelecionado = getSetorOpcaoSelecionada();
+    const setorManual = limparEspacos(setorOutroInput.value);
+    let setorFinal = '';
+    let setorOpcao = '';
+
+    if (setorSelecionado) {
+      setorOpcao = setorSelecionado.value;
+      setorFinal = setorOpcao === 'Outro' ? setorManual : setorOpcao;
+    }
+
+    // O Apps Script grava a coluna Segmento lendo data.Segmento.
+    // Por isso, quando a opção é Outro, Segmento recebe EXATAMENTE o texto digitado manualmente.
+    if (setorHiddenInput) setorHiddenInput.value = setorFinal;
+    if (segmentoHiddenInput) segmentoHiddenInput.value = setorFinal;
+
+    return { setorSelecionado, setorOpcao, setorManual, setorFinal };
+  }
+
   function updateSetorOutro() {
-    const setorSelecionado = document.querySelector('input[name="Setor"]:checked');
+    const { setorSelecionado } = sincronizarSetor();
     const isOutro = setorSelecionado?.value === 'Outro';
     setorOutroWrap.classList.toggle('visible', isOutro);
     setorOutroInput.required = isOutro;
 
     if (!isOutro) {
       setorOutroInput.value = '';
+      sincronizarSetor();
       setValid('Setor');
       return;
     }
 
-    if (setorOutroInput.value.trim().length >= 2) setValid('Setor');
+    if (limparEspacos(setorOutroInput.value).length >= 2) setValid('Setor');
   }
 
   setorOutroInput.addEventListener('input', function () {
-    if (this.value.trim().length >= 2) setValid('Setor');
+    sincronizarSetor();
+    if (limparEspacos(this.value).length >= 2) setValid('Setor');
     else if (getGroup('Setor')?.classList.contains('invalid')) {
       setInvalid('Setor', 'Digite o setor da empresa para a opção Outro.');
     }
@@ -1681,26 +1715,44 @@
     return true;
   }
 
+  function aplicarSetorNoPayload(data) {
+    const { setorSelecionado, setorOpcao, setorManual, setorFinal } = sincronizarSetor();
+
+    if (!setorSelecionado) {
+      data.Segmento = '';
+      data.Setor = '';
+      data.SetorOutro = '';
+      data.SetorOpcao = '';
+      data.SetorFinal = '';
+      data['Setor da empresa'] = '';
+      return false;
+    }
+
+    data.SetorOpcao = setorOpcao;
+    data.SetorOutro = setorOpcao === 'Outro' ? setorManual : '';
+    data.Segmento = setorFinal;
+    data.Setor = setorFinal;
+    data.SetorFinal = setorFinal;
+    data['Setor da empresa'] = setorFinal;
+    data['Setor manual'] = setorOpcao === 'Outro' ? setorManual : '';
+
+    return true;
+  }
+
   function validateSetor(data) {
-    const setor = document.querySelector('input[name="Setor"]:checked');
-    if (!setor) {
+    const { setorSelecionado, setorOpcao, setorManual } = sincronizarSetor();
+
+    if (!setorSelecionado) {
       setInvalid('Setor', 'Selecione o setor da sua empresa.');
       return false;
     }
 
-    if (setor.value === 'Outro') {
-      const setorManual = setorOutroInput.value.trim();
-      if (setorManual.length < 2) {
-        setInvalid('Setor', 'Digite o setor da empresa para a opção Outro.');
-        return false;
-      }
-      data.SetorOutro = setorManual;
-      data.Setor = 'Outro: ' + setorManual;
-    } else {
-      data.SetorOutro = '';
-      data.Setor = setor.value;
+    if (setorOpcao === 'Outro' && setorManual.length < 2) {
+      setInvalid('Setor', 'Digite o setor da empresa para a opção Outro.');
+      return false;
     }
 
+    aplicarSetorNoPayload(data);
     setValid('Setor');
     return true;
   }
@@ -1743,26 +1795,28 @@
   /* ─── ENVIO PARA GOOGLE APPS SCRIPT ─── */
 
   /*
-   * O campo Setor é enviado normalmente na integração.
-   * Quando o usuário marca Outro, data.Setor recebe "Outro: texto digitado"
-   * e data.SetorOutro também é enviado com o texto manual.
+   * O Apps Script informado grava a coluna Segmento usando data.Segmento.
+   * Quando o usuário marca Outro, data.Segmento recebe exatamente o texto digitado manualmente.
+   * data.Setor também é mantido como apoio, mas a planilha usa Segmento.
    */
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyr2FMxz2fHmMvML3vMz0R12GAA70pqfiwhIxUN5ojMytmVoj1ggqE3sx8aL96ZUIGO/exec';
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    // Sincroniza antes de criar o FormData para que o campo hidden name="Segmento"
+    // já contenha o valor final correto para a planilha.
+    sincronizarSetor();
+
     const fd = new FormData(this);
     const data = Object.fromEntries(fd.entries());
 
     const regime = document.querySelector('input[name="RegimeTributario"]:checked');
     const collab = document.querySelector('input[name="Colaboradores"]:checked');
-    const setor = document.querySelector('input[name="Setor"]:checked');
 
     data.RegimeTributario = regime ? regime.value : '';
     data.Colaboradores = collab ? collab.value : '';
-    data.Setor = setor ? setor.value : '';
-    data.SetorOutro = setorOutroInput.value.trim();
+    aplicarSetorNoPayload(data);
 
     if (!validateForm(data)) {
       const firstInvalid = document.querySelector('.form-group.invalid');
@@ -1778,10 +1832,16 @@
     document.getElementById('msg-error').classList.remove('visible');
 
     try {
-      await fetch(APPS_SCRIPT_URL, {
+      // Garante novamente que o texto digitado em Setor > Outro seja o valor final de Segmento.
+      aplicarSetorNoPayload(data);
+
+      const params = new URLSearchParams(data);
+      const urlComParametros = APPS_SCRIPT_URL + '?' + params.toString();
+
+      await fetch(urlComParametros, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body: JSON.stringify(data)
       });
 
