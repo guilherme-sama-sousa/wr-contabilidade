@@ -1589,6 +1589,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     group.classList.add('invalid');
   }
 
+  /* ─── EVENTO PARA O GOOGLE TAG MANAGER ───
+   * Empurra um evento para o dataLayer. A tag de conversão no GTM deve ser
+   * disparada APENAS pelo evento custom 'formulario_enviado' (sucesso real),
+   * e NUNCA por gatilho de clique no botão ou de submit do formulário —
+   * caso contrário ela conta mesmo quando a validação ou o envio falham.
+   * Não enviamos dados pessoais (nome / WhatsApp) para o dataLayer por LGPD. */
+  function pushDataLayer(eventName) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: eventName,
+      form_id: 'wr-form',
+      form_name: 'Formulário de Aplicação'
+    });
+  }
+
   function formatPhone(value) {
     let v = value.replace(/\D/g, '').slice(0, 11);
     if (v.length > 6) return '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
@@ -1833,6 +1848,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     aplicarSetorNoPayload(data);
 
     if (!validateForm(data)) {
+      pushDataLayer('formulario_invalido');
       const firstInvalid = document.querySelector('.form-group.invalid');
       if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
@@ -1862,6 +1878,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.getElementById('nome-confirmado').textContent = data.Nome;
       document.getElementById('msg-success').classList.add('visible');
       document.getElementById('msg-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Conversão: dispara SOMENTE aqui, após o envio ser concluído com sucesso.
+      pushDataLayer('formulario_enviado');
+
       this.reset();
       document.querySelectorAll('.radio-opt').forEach(el => el.classList.remove('selected'));
       setorOutroWrap.classList.remove('visible');
@@ -1869,6 +1889,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     } catch (err) {
       console.error('Erro:', err);
+      pushDataLayer('formulario_erro');
       document.getElementById('msg-error').classList.add('visible');
     } finally {
       btn.classList.remove('loading');
